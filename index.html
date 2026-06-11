@@ -7,58 +7,33 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--black:#04080F;--white:#F0F0EC;--amber:#E8845A;--dim:rgba(240,240,236,.38);--light-bg:#F4F2EE;--dark-text:#1a1a2e;}
+:root{--black:#04080F;--white:#F0F0EC;--amber:#E8845A;--dim:rgba(240,240,236,.38);--light:#F4F2EE;--dark-text:#1a1a2e;}
 html,body{width:100%;overflow-x:hidden;background:var(--black);color:var(--white);font-family:'Inter',sans-serif;}
-
-/* PROGRESS */
-#prog{position:fixed;top:0;left:0;height:2px;background:var(--amber);z-index:999;width:0;transition:width .08s linear;}
+#prog{position:fixed;top:0;left:0;height:2px;background:var(--amber);z-index:999;width:0;transition:width .08s;}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 3rem;opacity:0;transition:opacity .5s;pointer-events:none;}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 3rem;opacity:0;transition:opacity .5s,color .4s;pointer-events:none;}
 nav.show{opacity:1;pointer-events:all;}
-nav.light{color:var(--dark-text);}
 nav.light .nname{color:var(--dark-text);}
-nav.light .nlinks a{color:rgba(26,26,46,.5);}
+nav.light .nlinks a{color:rgba(26,26,46,.45);}
 nav.light .nlinks a:hover{color:var(--dark-text);}
-.nname{font-family:'Bebas Neue';font-size:1rem;letter-spacing:.15em;}
+.nname{font-family:'Bebas Neue';font-size:1rem;letter-spacing:.15em;transition:color .4s;}
 .nlinks{display:flex;gap:2rem;}
 .nlinks a{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .2s;}
 .nlinks a:hover{color:var(--white);}
 
-/* ═══ VIDEO SECTIONS — NO BORDERS ═══ */
-.video-section{
-  position:relative;
-  height:100vh;
-  overflow:hidden;
-  display:flex;align-items:center;justify-content:center;
-  /* No margin, no border — seamless */
-}
-.video-section video,
-.video-section img{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-}
-.video-section::after{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse at center,transparent 15%,rgba(4,8,15,.72) 100%);
-  pointer-events:none;z-index:1;
-}
-/* Seamless blend to next — gradient matches next section bg */
-.blend-to-dark::before{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:250px;
-  background:linear-gradient(to bottom,transparent,#04080f);
-  z-index:2;pointer-events:none;
-}
-.blend-to-light::before{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:300px;
-  background:linear-gradient(to bottom,transparent,#F4F2EE);
-  z-index:2;pointer-events:none;
-}
+/* VIDEO SECTIONS */
+.video-section{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.video-section video,.video-section img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.video-section::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 15%,rgba(4,8,15,.72) 100%);pointer-events:none;z-index:1;}
+.blend-dark::before{content:'';position:absolute;bottom:0;left:0;right:0;height:250px;background:linear-gradient(to bottom,transparent,#04080f);z-index:2;pointer-events:none;}
+.blend-light::before{content:'';position:absolute;bottom:0;left:0;right:0;height:300px;background:linear-gradient(to bottom,transparent,#F4F2EE);z-index:2;pointer-events:none;}
 .video-content{position:relative;z-index:3;text-align:center;padding:0 2rem;}
 
-/* ═══ SCENE 1: EARTH ═══ */
+/* EARTH HERO */
 .earth-eyebrow{font-size:.65rem;letter-spacing:.4em;text-transform:uppercase;color:var(--amber);margin-bottom:1.5rem;opacity:0;animation:fadeUp .8s ease forwards .5s;}
 .earth-role{font-family:'Bebas Neue';font-size:clamp(1rem,2.5vw,1.6rem);letter-spacing:.25em;color:rgba(240,240,236,.45);opacity:0;animation:fadeUp .8s ease forwards .8s;margin-bottom:.5rem;}
-.earth-name{font-family:'Bebas Neue';font-size:clamp(4rem,11vw,9rem);line-height:.9;letter-spacing:.04em;opacity:0;animation:fadeUp 1s ease forwards 1s;text-shadow:0 0 80px rgba(232,132,90,.2);}
+.earth-name{font-family:'Bebas Neue';font-size:clamp(4rem,11vw,9rem);line-height:.9;letter-spacing:.04em;opacity:0;animation:fadeUp 1s ease forwards 1s;}
 .earth-sub{font-size:.85rem;font-weight:300;color:rgba(240,240,236,.4);margin-top:1.5rem;letter-spacing:.08em;opacity:0;animation:fadeUp .8s ease forwards 1.5s;}
 .scroll-hint{position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.6rem;z-index:3;opacity:0;animation:fadeUp .8s ease forwards 2.2s;}
 .scroll-hint span{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);}
@@ -66,144 +41,219 @@ nav.light .nlinks a:hover{color:var(--dark-text);}
 @keyframes lineA{0%,100%{opacity:1;transform:scaleY(1)}50%{opacity:.4;transform:scaleY(.5)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 
-/* ═══ SCENE CONTENT ═══ */
+/* SCENE TEXT */
 .scene-eyebrow{font-size:.65rem;letter-spacing:.35em;text-transform:uppercase;color:var(--amber);margin-bottom:1rem;opacity:0;transition:opacity .8s .2s;}
 .scene-eyebrow.vis{opacity:1;}
 .scene-title{font-family:'Bebas Neue';font-size:clamp(3rem,9vw,7.5rem);line-height:.9;letter-spacing:.03em;opacity:0;transform:translateY(30px);transition:opacity .9s,transform .9s;}
 .scene-title.vis{opacity:1;transform:translateY(0);}
 .scene-sub{font-size:.9rem;font-weight:300;color:rgba(240,240,236,.45);margin-top:1.5rem;line-height:1.8;opacity:0;transition:opacity .8s .4s;}
 .scene-sub.vis{opacity:1;}
-
-/* Route dots on Mexico */
-#mexico-routes{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;transition:opacity 1s .5s;}
-#mexico-routes.vis{opacity:1;}
-.route-dot{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--amber);box-shadow:0 0 12px rgba(232,132,90,.8);}
-.route-dot::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:1.5px solid var(--amber);animation:dotPulse 2s ease-out infinite;}
-@keyframes dotPulse{from{transform:scale(1);opacity:.7}to{transform:scale(2.5);opacity:0}}
-.route-label{position:absolute;font-family:'Bebas Neue';font-size:.75rem;letter-spacing:.15em;color:var(--amber);margin-top:14px;margin-left:-10px;text-shadow:0 0 10px rgba(232,132,90,.5);}
-
-/* Trailer stat */
-.trailer-stat{display:inline-block;font-family:'Bebas Neue';font-size:clamp(5rem,14vw,11rem);color:var(--amber);line-height:1;text-shadow:0 0 60px rgba(232,132,90,.4);opacity:0;transform:translateY(40px);transition:opacity 1s,transform 1s;}
+.trailer-stat{font-family:'Bebas Neue';font-size:clamp(5rem,14vw,11rem);color:var(--amber);line-height:1;opacity:0;transform:translateY(40px);transition:opacity 1s,transform 1s;}
 .trailer-stat.vis{opacity:1;transform:translateY(0);}
 .trailer-stat-label{font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(240,240,236,.4);margin-top:.5rem;opacity:0;transition:opacity .8s .3s;}
 .trailer-stat-label.vis{opacity:1;}
 
-/* ═══════════════════════════════
-   LIGHT CV SECTIONS
-═══════════════════════════════ */
-#cv-content{background:var(--light-bg);}
+/* ROUTE DOTS */
+#mexico-routes{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;transition:opacity 1s .5s;}
+#mexico-routes.vis{opacity:1;}
+.route-dot{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--amber);box-shadow:0 0 12px rgba(232,132,90,.8);}
+.route-dot::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:1.5px solid var(--amber);animation:dotP 2s ease-out infinite;}
+@keyframes dotP{from{transform:scale(1);opacity:.7}to{transform:scale(2.5);opacity:0}}
+.route-label{position:absolute;font-family:'Bebas Neue';font-size:.75rem;letter-spacing:.15em;color:var(--amber);margin-top:14px;margin-left:-10px;}
 
-.cv-panel{
-  min-height:100vh;display:flex;flex-direction:column;justify-content:center;
-  padding:8rem 6vw;
-  background:var(--light-bg);
-  color:var(--dark-text);
-  /* No borders */
+/* ════════════════════════════
+   PLANET LOGO ANIMATION
+════════════════════════════ */
+.planet-logo-wrap{
+  position:relative;
+  width:130px;height:130px;
+  flex-shrink:0;
+}
+.planet-canvas{
+  position:absolute;inset:0;
+  border-radius:50%;
+  animation:planetSpin 0s linear infinite;
+}
+.planet-logo-img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:contain;
+  opacity:0;
+  transform:scale(.6);
+  transition:opacity .6s ease, transform .6s ease;
+  border-radius:8px;
+  padding:8px;
+  background:white;
+}
+/* When parent has .revealed, hide planet show logo */
+.planet-logo-wrap.revealed .planet-canvas{
+  animation:planetReveal .8s ease forwards;
+}
+.planet-logo-wrap.revealed .planet-logo-img{
+  opacity:1;
+  transform:scale(1);
+  transition-delay:.4s;
+}
+@keyframes planetReveal{
+  0%{transform:scale(1);opacity:1;}
+  50%{transform:scale(1.15);opacity:.8;}
+  100%{transform:scale(0);opacity:0;}
 }
 
-/* Alternating subtle bg */
+/* ════════════════════════════
+   CV LIGHT SECTIONS
+════════════════════════════ */
+#cv-content{background:var(--light);}
+.cv-panel{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:8rem 6vw;background:var(--light);color:var(--dark-text);}
 .cv-panel.alt{background:#ECEAE4;}
-
 .eyebrow{font-size:.63rem;letter-spacing:.32em;text-transform:uppercase;color:var(--amber);margin-bottom:1.5rem;}
 .big-title{font-family:'Bebas Neue';font-size:clamp(3.5rem,9vw,8rem);line-height:.9;letter-spacing:.025em;margin-bottom:3rem;color:var(--dark-text);}
 .cursor-blink{display:inline-block;width:4px;height:.8em;background:var(--amber);margin-left:4px;vertical-align:middle;animation:cblink .9s step-end infinite;}
 @keyframes cblink{0%,100%{opacity:1}50%{opacity:0}}
 
-/* About */
-.about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:5rem;align-items:start;}
+/* ABOUT with photo */
+.about-grid{display:grid;grid-template-columns:1fr 340px;gap:5rem;align-items:start;}
+.about-left{display:flex;flex-direction:column;gap:3rem;}
 .about-text{font-size:1rem;line-height:1.95;color:rgba(26,26,46,.65);font-weight:300;}
-.stats-stack{display:flex;flex-direction:column;gap:2.8rem;}
+.stats-stack{display:flex;flex-direction:column;gap:2.5rem;}
 .stat-row{border-left:2px solid rgba(232,132,90,.4);padding-left:1.5rem;}
 .stat-big{font-family:'Bebas Neue';font-size:3.8rem;color:var(--amber);line-height:1;display:block;}
 .stat-desc{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(26,26,46,.45);margin-top:.2rem;}
 
-/* ═══ EXPERIENCE ═══ */
+/* Photo */
+.photo-wrap{
+  position:relative;
+  opacity:0;transform:translateX(30px);
+  transition:opacity .9s ease,transform .9s ease;
+}
+.photo-wrap.vis{opacity:1;transform:translateX(0);}
+.photo-img{
+  width:100%;
+  aspect-ratio:3/4;
+  object-fit:cover;
+  object-position:top;
+  border-radius:4px;
+  filter:grayscale(15%);
+  transition:filter .3s;
+}
+.photo-wrap:hover .photo-img{filter:grayscale(0%);}
+.photo-caption{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:2rem 1.5rem 1.5rem;
+  background:linear-gradient(to top,rgba(26,26,46,.85),transparent);
+  border-radius:0 0 4px 4px;
+}
+.photo-caption-name{font-family:'Bebas Neue';font-size:1.4rem;letter-spacing:.08em;color:white;display:block;}
+.photo-caption-role{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);}
+/* Amber corner accent */
+.photo-wrap::before{
+  content:'';position:absolute;top:-8px;right:-8px;
+  width:40px;height:40px;
+  border-top:3px solid var(--amber);
+  border-right:3px solid var(--amber);
+  z-index:1;
+}
+.photo-wrap::after{
+  content:'';position:absolute;bottom:-8px;left:-8px;
+  width:40px;height:40px;
+  border-bottom:3px solid var(--amber);
+  border-left:3px solid var(--amber);
+}
+
+/* EXPERIENCE */
 .exp-row{
-  display:grid;grid-template-columns:200px 1fr;gap:3rem;
-  padding:3rem 0;
-  /* No border-top, use padding separation */
+  display:grid;grid-template-columns:180px 1fr;gap:3rem;
+  padding:3rem 0;position:relative;
   opacity:0;transform:translateY(28px);
   transition:opacity .65s ease,transform .65s ease;
-  position:relative;
 }
-/* Subtle separator line — much lighter */
 .exp-row+.exp-row{border-top:1px solid rgba(26,26,46,.08);}
 .exp-row::before{content:'';position:absolute;left:-6vw;top:0;bottom:0;width:3px;background:var(--amber);transform:scaleY(0);transform-origin:top;transition:transform .4s ease;}
 .exp-row.vis{opacity:1;transform:translateY(0);}
 .exp-row.vis:hover::before{transform:scaleY(1);}
 .exp-row:hover .exp-title{color:var(--amber);}
-
-.exp-left{display:flex;flex-direction:column;gap:.8rem;}
-.exp-logo{
-  width:80px;height:40px;object-fit:contain;
-  opacity:.85;filter:grayscale(20%);
-  transition:opacity .2s,filter .2s;
-}
-.exp-row:hover .exp-logo{opacity:1;filter:grayscale(0%);}
+.exp-left{display:flex;flex-direction:column;gap:.8rem;align-items:flex-start;}
 .exp-period{font-size:.68rem;letter-spacing:.12em;color:rgba(26,26,46,.4);text-transform:uppercase;line-height:1.6;}
-.exp-company{font-size:.82rem;font-weight:600;color:var(--amber);}
+.exp-company-name{font-size:.82rem;font-weight:600;color:var(--amber);}
 .exp-title{font-family:'Bebas Neue';font-size:clamp(1.6rem,3vw,2.4rem);letter-spacing:.03em;margin-bottom:.9rem;transition:color .25s;line-height:1;color:var(--dark-text);}
 .exp-points{list-style:none;}
-.exp-points li{font-size:.88rem;color:rgba(26,26,46,.6);line-height:1.85;padding-left:1.3rem;position:relative;margin-bottom:.25rem;}
+.exp-points li{
+  font-size:.88rem;color:rgba(26,26,46,.6);line-height:1.85;
+  padding-left:1.3rem;position:relative;margin-bottom:.25rem;
+  opacity:0;transform:translateX(-10px);
+  transition:opacity .4s ease,transform .4s ease;
+}
+.exp-row.vis .exp-points li{opacity:1;transform:translateX(0);}
+.exp-row.vis .exp-points li:nth-child(1){transition-delay:.15s;}
+.exp-row.vis .exp-points li:nth-child(2){transition-delay:.28s;}
+.exp-row.vis .exp-points li:nth-child(3){transition-delay:.41s;}
+.exp-row.vis .exp-points li:nth-child(4){transition-delay:.54s;}
 .exp-points li::before{content:'→';position:absolute;left:0;color:var(--amber);font-size:.72rem;}
 
-/* Skills */
+/* SKILLS */
 .mq-wrap{overflow:hidden;border-top:1px solid rgba(26,26,46,.08);border-bottom:1px solid rgba(26,26,46,.08);padding:1.1rem 0;margin-bottom:3rem;}
 .mq{display:flex;gap:3rem;width:max-content;animation:mqa 22s linear infinite;}
 .mq span{font-family:'Bebas Neue';font-size:1.7rem;letter-spacing:.1em;white-space:nowrap;color:rgba(26,26,46,.12);}
 .mq span.hi{color:var(--dark-text);}
 @keyframes mqa{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
 .sk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1px;background:rgba(26,26,46,.08);}
-.sk-box{background:var(--light-bg);padding:1.8rem 1.5rem;opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s,background .2s;}
+.sk-box{
+  background:var(--light);padding:1.8rem 1.5rem;
+  opacity:0;transform:translateY(14px);
+  transition:opacity .5s,transform .5s,background .2s,box-shadow .2s;
+  cursor:default;
+}
 .sk-box.vis{opacity:1;transform:translateY(0);}
-.sk-box:hover{background:#EAE8E2;}
+.sk-box:hover{background:white;box-shadow:0 4px 20px rgba(26,26,46,.08);transform:translateY(-3px)!important;}
 .sk-box:hover .sk-name{color:var(--amber);}
 .sk-cat{font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);margin-bottom:.5rem;}
-.sk-name{font-size:.92rem;font-weight:500;color:var(--dark-text);}
+.sk-name{font-size:.92rem;font-weight:500;color:var(--dark-text);transition:color .2s;}
 
-/* Education */
-.edu-row{display:grid;grid-template-columns:90px 1fr;gap:2.5rem;padding:2.2rem 0;opacity:0;transform:translateX(-25px);transition:opacity .6s ease,transform .6s ease;}
-.edu-row+.edu-row{border-top:1px solid rgba(26,26,46,.08);}
+/* EDUCATION timeline */
+.edu-timeline{position:relative;padding-left:2rem;}
+.edu-timeline::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:linear-gradient(to bottom,var(--amber),rgba(232,132,90,.1));
+}
+.edu-row{
+  position:relative;padding:2rem 0 2rem 2rem;
+  opacity:0;transform:translateX(-20px);
+  transition:opacity .6s ease,transform .6s ease;
+}
 .edu-row.vis{opacity:1;transform:translateX(0);}
-.edu-year{font-family:'Bebas Neue';font-size:1.1rem;color:var(--amber);padding-top:.2rem;}
+.edu-row::before{
+  content:'';position:absolute;left:-2.35rem;top:2.4rem;
+  width:10px;height:10px;border-radius:50%;
+  background:var(--amber);border:2px solid var(--light);
+  box-shadow:0 0 0 3px rgba(232,132,90,.2);
+}
+.edu-year{font-family:'Bebas Neue';font-size:1rem;color:var(--amber);margin-bottom:.3rem;}
 .edu-deg{font-size:1rem;font-weight:600;margin-bottom:.3rem;color:var(--dark-text);}
 .edu-inst{font-size:.82rem;color:rgba(26,26,46,.45);}
 
-/* Contact — back to dark */
-#cv-contact{
-  min-height:100vh;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;text-align:center;padding:6rem 2rem;
-  background:var(--black);color:var(--white);
-}
+/* CONTACT */
+.light-to-dark{height:200px;background:linear-gradient(to bottom,var(--light),var(--black));}
+#cv-contact{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem;background:var(--black);color:var(--white);}
 .ct-pre{font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--amber);margin-bottom:2rem;}
-.ct-big{font-family:'Bebas Neue';font-size:clamp(3.5rem,11vw,9rem);line-height:.88;letter-spacing:.02em;margin-bottom:3rem;color:var(--white);}
+.ct-big{font-family:'Bebas Neue';font-size:clamp(3.5rem,11vw,9rem);line-height:.88;letter-spacing:.02em;margin-bottom:3rem;}
 .ct-links{display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;}
 .ct-btn{display:inline-block;text-decoration:none;color:var(--white);border:1px solid rgba(255,255,255,.2);padding:.9rem 2rem;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;transition:border-color .2s,color .2s;}
 .ct-btn:hover{border-color:var(--amber);color:var(--amber);}
 
-/* Transition from last light section to dark contact */
-.light-to-dark{
-  height:200px;
-  background:linear-gradient(to bottom,var(--light-bg),var(--black));
-}
-
-/* Scroll reveal */
 .sr{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease;}
 .sr.vis{opacity:1;transform:translateY(0);}
 
-@media(max-width:640px){
+@media(max-width:768px){
   nav{padding:1rem 1.5rem;}.nlinks{display:none;}
   .cv-panel{padding:6rem 1.5rem;}
   .about-grid{grid-template-columns:1fr;gap:2.5rem;}
+  .photo-wrap{max-width:280px;margin:0 auto;}
   .exp-row{grid-template-columns:1fr;gap:.4rem;}
-  .edu-row{grid-template-columns:70px 1fr;gap:1.5rem;}
 }
 </style>
 </head>
 <body>
 <div id="prog"></div>
-
 <nav id="mainNav">
   <span class="nname">Ignacio Zamora · MBA</span>
   <div class="nlinks">
@@ -215,8 +265,8 @@ nav.light .nlinks a:hover{color:var(--dark-text);}
   </div>
 </nav>
 
-<!-- ═══ SCENE 1: EARTH ═══ -->
-<section class="video-section blend-to-dark" id="scene-earth">
+<!-- SCENE 1: EARTH -->
+<section class="video-section blend-dark" id="scene-earth">
   <video autoplay muted loop playsinline><source src="earth.mp4" type="video/mp4"></video>
   <div class="video-content">
     <p class="earth-eyebrow">Ciudad de México · Disponible</p>
@@ -227,9 +277,9 @@ nav.light .nlinks a:hover{color:var(--dark-text);}
   <div class="scroll-hint"><div class="scroll-line"></div><span>Scroll</span></div>
 </section>
 
-<!-- ═══ SCENE 2: MEXICO ═══ -->
-<section class="video-section blend-to-dark" id="scene-mexico">
-  <img src="mexico.jpg" alt="Mexico desde el espacio">
+<!-- SCENE 2: MEXICO -->
+<section class="video-section blend-dark" id="scene-mexico">
+  <img src="mexico.jpg" alt="Mexico">
   <div id="mexico-routes">
     <div class="route-dot" style="top:38%;left:28%;"><span class="route-label">MTY</span></div>
     <div class="route-dot" style="top:52%;left:38%;"><span class="route-label">GDL</span></div>
@@ -238,45 +288,43 @@ nav.light .nlinks a:hover{color:var(--dark-text);}
     <div class="route-dot" style="top:62%;left:68%;"><span class="route-label">OAX</span></div>
   </div>
   <div class="video-content">
-    <p class="scene-eyebrow" id="mxEyebrow">Red Logística Nacional</p>
-    <h2 class="scene-title" id="mxTitle">MÉXICO<br><span style="color:var(--amber)">CONECTADO.</span></h2>
-    <p class="scene-sub" id="mxSub">8 años moviendo carga a través de toda la república.<br>De Monterrey a Mérida, de Tijuana a Cancún.</p>
+    <p class="scene-eyebrow" id="mxEy">Red Logística Nacional</p>
+    <h2 class="scene-title" id="mxTi">MÉXICO<br><span style="color:var(--amber)">CONECTADO.</span></h2>
+    <p class="scene-sub" id="mxSu">8 años moviendo carga a través de toda la república.</p>
   </div>
 </section>
 
-<!-- ═══ SCENE 3: CDMX ═══ -->
-<section class="video-section blend-to-dark" id="scene-cdmx">
-  <img src="cdmx.jpg" alt="CDMX de noche">
+<!-- SCENE 3: CDMX -->
+<section class="video-section blend-dark" id="scene-cdmx">
+  <img src="cdmx.jpg" alt="CDMX">
   <div class="video-content">
-    <p class="scene-eyebrow" id="cdmxEyebrow">Base de Operaciones</p>
-    <h2 class="scene-title" id="cdmxTitle">CIUDAD DE<br><span style="color:var(--amber)">MÉXICO.</span></h2>
-    <p class="scene-sub" id="cdmxSub">Coordinando operaciones desde el corazón<br>de la ciudad más grande de Latinoamérica.</p>
+    <p class="scene-eyebrow" id="cdEy">Base de Operaciones</p>
+    <h2 class="scene-title" id="cdTi">CIUDAD DE<br><span style="color:var(--amber)">MÉXICO.</span></h2>
+    <p class="scene-sub" id="cdSu">Coordinando operaciones desde el corazón<br>de la ciudad más grande de Latinoamérica.</p>
   </div>
 </section>
 
-<!-- ═══ SCENE 4: TRAILER ═══ -->
-<section class="video-section blend-to-dark" id="scene-trailer">
+<!-- SCENE 4: TRAILER -->
+<section class="video-section blend-dark" id="scene-trailer">
   <video autoplay muted loop playsinline><source src="trailer.mp4" type="video/mp4"></video>
   <div class="video-content">
-    <div class="trailer-stat" id="trailerStat">8+</div>
-    <p class="trailer-stat-label" id="trailerLabel">Años en logística · FTL · LTL · Parcel · Last Mile</p>
-    <p class="scene-sub" id="trailerSub" style="margin-top:1.5rem;">Hellmann · Geodis · Kuehne+Nagel</p>
+    <div class="trailer-stat" id="trSt">8+</div>
+    <p class="trailer-stat-label" id="trLb">Años · FTL · LTL · Parcel · Last Mile</p>
+    <p class="scene-sub" id="trSu" style="margin-top:1.5rem;">Hellmann · Geodis · Kuehne+Nagel</p>
   </div>
 </section>
 
-<!-- ═══ SCENE 5: WAREHOUSE ═══ -->
-<section class="video-section blend-to-light" id="scene-warehouse">
+<!-- SCENE 5: WAREHOUSE -->
+<section class="video-section blend-light" id="scene-warehouse">
   <video autoplay muted loop playsinline><source src="warehouse.mp4" type="video/mp4"></video>
   <div class="video-content">
-    <p class="scene-eyebrow" id="whEyebrow">Operaciones · E-commerce · Supply Chain</p>
-    <h2 class="scene-title" id="whTitle">CADA CAJA<br><span style="color:var(--amber)">CUENTA.</span></h2>
-    <p class="scene-sub" id="whSub">Arquitectura de datos, KPIs en tiempo real<br>y procesos SOP que nunca fallan.</p>
+    <p class="scene-eyebrow" id="whEy">Operaciones · E-commerce · Supply Chain</p>
+    <h2 class="scene-title" id="whTi">CADA CAJA<br><span style="color:var(--amber)">CUENTA.</span></h2>
+    <p class="scene-sub" id="whSu">Arquitectura de datos, KPIs en tiempo real<br>y procesos SOP que nunca fallan.</p>
   </div>
 </section>
 
-<!-- ═══════════════════════
-     CV LIGHT SECTIONS
-═══════════════════════ -->
+<!-- CV CONTENT -->
 <div id="cv-content">
 
   <!-- ABOUT -->
@@ -284,11 +332,21 @@ nav.light .nlinks a:hover{color:var(--dark-text);}
     <p class="eyebrow sr">Perfil Profesional</p>
     <div class="big-title sr">NO SOLO<br><span style="color:var(--amber)">MUEVO</span><br>CARGA.<span class="cursor-blink"></span></div>
     <div class="about-grid">
-      <p class="about-text sr">Ingeniero Industrial y MBA en Finanzas con más de 8 años construyendo operaciones logísticas de clase mundial. De Hellmann a Geodis a Kuehne+Nagel — cada etapa con más responsabilidad, más impacto. Especialista en procurement, cadena de suministro, e-commerce y arquitectura de datos para decisiones que mueven millones.</p>
-      <div class="stats-stack">
-        <div class="stat-row sr"><span class="stat-big">8</span><span class="stat-desc">Años en logística global</span></div>
-        <div class="stat-row sr" style="transition-delay:.12s"><span class="stat-big">3</span><span class="stat-desc">Top 10 empresas logísticas globales</span></div>
-        <div class="stat-row sr" style="transition-delay:.24s"><span class="stat-big">20</span><span class="stat-desc">% incremento gross margin · Hellmann</span></div>
+      <div class="about-left">
+        <p class="about-text sr">Ingeniero Industrial y MBA en Finanzas con más de 8 años construyendo operaciones logísticas de clase mundial. De Hellmann a Geodis a Kuehne+Nagel — cada etapa con más responsabilidad, más impacto. Especialista en procurement, cadena de suministro, e-commerce y arquitectura de datos.</p>
+        <div class="stats-stack">
+          <div class="stat-row sr"><span class="stat-big">8</span><span class="stat-desc">Años en logística global</span></div>
+          <div class="stat-row sr" style="transition-delay:.12s"><span class="stat-big">3</span><span class="stat-desc">Top 10 empresas logísticas globales</span></div>
+          <div class="stat-row sr" style="transition-delay:.24s"><span class="stat-big">20</span><span class="stat-desc">% incremento gross margin · Hellmann</span></div>
+        </div>
+      </div>
+      <!-- PHOTO -->
+      <div class="photo-wrap sr">
+        <img class="photo-img" src="photo.jpg" alt="Ignacio Zamora">
+        <div class="photo-caption">
+          <span class="photo-caption-name">Ignacio Zamora</span>
+          <span class="photo-caption-role">MBA Finance · Distribution Manager</span>
+        </div>
       </div>
     </div>
   </section>
@@ -298,11 +356,15 @@ nav.light .nlinks a:hover{color:var(--dark-text);}
     <p class="eyebrow sr">Trayectoria</p>
     <div class="big-title sr">EXPERIENCIA</div>
 
+    <!-- KN -->
     <div class="exp-row">
       <div class="exp-left">
-        <img class="exp-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Kuehne_%2B_Nagel_logo.svg/320px-Kuehne_%2B_Nagel_logo.svg.png" alt="Kuehne+Nagel">
+        <div class="planet-logo-wrap" data-logo="logo-kn.png" data-color="#0096D6">
+          <canvas class="planet-canvas" width="130" height="130"></canvas>
+          <img class="planet-logo-img" src="logo-kn.png" alt="Kuehne+Nagel">
+        </div>
         <p class="exp-period">Jul 2023 — Presente</p>
-        <p class="exp-company">Kuehne+Nagel</p>
+        <p class="exp-company-name">Kuehne+Nagel</p>
       </div>
       <div>
         <h3 class="exp-title">CONTRACT LOGISTICS DISTRIBUTION MANAGER — PROCUREMENT</h3>
@@ -315,11 +377,15 @@ nav.light .nlinks a:hover{color:var(--dark-text);}
       </div>
     </div>
 
+    <!-- GEODIS -->
     <div class="exp-row" style="transition-delay:.1s">
       <div class="exp-left">
-        <img class="exp-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Geodis_logo.svg/320px-Geodis_logo.svg.png" alt="Geodis">
+        <div class="planet-logo-wrap" data-logo="logo-geodis.png" data-color="#3D1E8F">
+          <canvas class="planet-canvas" width="130" height="130"></canvas>
+          <img class="planet-logo-img" src="logo-geodis.png" alt="Geodis">
+        </div>
         <p class="exp-period">Feb 2020 — Jul 2023</p>
-        <p class="exp-company">Geodis</p>
+        <p class="exp-company-name">Geodis</p>
       </div>
       <div>
         <h3 class="exp-title">TEAM LEADER ADMINISTRATOR — LOGISTICS</h3>
@@ -331,11 +397,15 @@ nav.light .nlinks a:hover{color:var(--dark-text);}
       </div>
     </div>
 
+    <!-- HELLMANN -->
     <div class="exp-row" style="transition-delay:.2s">
       <div class="exp-left">
-        <img class="exp-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Hellmann_Worldwide_Logistics_logo.svg/320px-Hellmann_Worldwide_Logistics_logo.svg.png" alt="Hellmann">
+        <div class="planet-logo-wrap" data-logo="logo-hellmann.png" data-color="#E30613">
+          <canvas class="planet-canvas" width="130" height="130"></canvas>
+          <img class="planet-logo-img" src="logo-hellmann.png" alt="Hellmann">
+        </div>
         <p class="exp-period">May 2017 — Feb 2020</p>
-        <p class="exp-company">Hellmann</p>
+        <p class="exp-company-name">Hellmann</p>
       </div>
       <div>
         <h3 class="exp-title">RAIL & ROAD PRICING · PROCUREMENT COORDINATOR</h3>
@@ -374,15 +444,14 @@ nav.light .nlinks a:hover{color:var(--dark-text);}
   <section class="cv-panel alt" id="cv-edu">
     <p class="eyebrow sr">Formación</p>
     <div class="big-title sr">EDUCACIÓN</div>
-    <div>
-      <div class="edu-row"><p class="edu-year">2023</p><div><p class="edu-deg">MBA en Finanzas · MBA en Calidad & Productividad</p><p class="edu-inst">Universidad TecMilenio</p></div></div>
-      <div class="edu-row" style="transition-delay:.1s"><p class="edu-year">2017</p><div><p class="edu-deg">Ingeniería Industrial</p><p class="edu-inst">Universidad Politécnica del Valle de México</p></div></div>
-      <div class="edu-row" style="transition-delay:.2s"><p class="edu-year">2017</p><div><p class="edu-deg">Project & Political Sciences Seminar</p><p class="edu-inst">The Washington Center</p></div></div>
-      <div class="edu-row" style="transition-delay:.3s"><p class="edu-year">+</p><div><p class="edu-deg">Metodología CAMP · English</p><p class="edu-inst">TecMilenio · Quick Learning</p></div></div>
+    <div class="edu-timeline">
+      <div class="edu-row"><p class="edu-year">2023</p><p class="edu-deg">MBA en Finanzas · MBA en Calidad & Productividad</p><p class="edu-inst">Universidad TecMilenio</p></div>
+      <div class="edu-row" style="transition-delay:.12s"><p class="edu-year">2017</p><p class="edu-deg">Ingeniería Industrial</p><p class="edu-inst">Universidad Politécnica del Valle de México</p></div>
+      <div class="edu-row" style="transition-delay:.24s"><p class="edu-year">2017</p><p class="edu-deg">Project & Political Sciences Seminar</p><p class="edu-inst">The Washington Center</p></div>
+      <div class="edu-row" style="transition-delay:.36s"><p class="edu-year">+</p><p class="edu-deg">Metodología CAMP · English</p><p class="edu-inst">TecMilenio · Quick Learning</p></div>
     </div>
   </section>
 
-  <!-- Transition to dark -->
   <div class="light-to-dark"></div>
 
   <!-- CONTACT -->
@@ -395,7 +464,6 @@ nav.light .nlinks a:hover{color:var(--dark-text);}
       <a href="https://linkedin.com/in/ignacio-zamoramedina-mba-688825117/" target="_blank" class="ct-btn">in LinkedIn</a>
     </div>
   </section>
-
 </div>
 
 <script>
@@ -404,22 +472,145 @@ window.addEventListener('scroll',()=>{
   document.getElementById('prog').style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
 },{passive:true});
 
-// Nav
+// Nav color
 window.addEventListener('scroll',()=>{
-  const nav = document.getElementById('mainNav');
-  const cvTop = document.getElementById('cv-content').offsetTop;
-  nav.classList.toggle('show', window.scrollY > window.innerHeight * .8);
-  nav.classList.toggle('light', window.scrollY > cvTop - 100);
+  const nav=document.getElementById('mainNav');
+  const cvTop=document.getElementById('cv-content').offsetTop;
+  nav.classList.toggle('show',window.scrollY>window.innerHeight*.5);
+  nav.classList.toggle('light',window.scrollY>cvTop-100);
 },{passive:true});
 
-// Intersection Observer
-const io = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('vis'); });
-},{threshold:.25});
-document.querySelectorAll('.sr,.exp-row,.sk-box,.edu-row,.scene-eyebrow,.scene-title,.scene-sub,.trailer-stat,.trailer-stat-label').forEach(el=>io.observe(el));
-document.getElementById('mexico-routes') && io.observe(document.getElementById('mexico-routes'));
+// ── PLANET ANIMATION ──
+function initPlanet(wrap) {
+  const canvas = wrap.querySelector('.planet-canvas');
+  const ctx = canvas.getContext('2d');
+  const color = wrap.dataset.color || '#0096D6';
+  const W = 130, H = 130, R = 58;
+  let offset = 0;
+  let animId = null;
+  let stopped = false;
 
-// Counters
+  // Parse color to rgb
+  const hex = color.replace('#','');
+  const r = parseInt(hex.substr(0,2),16);
+  const g = parseInt(hex.substr(2,2),16);
+  const b = parseInt(hex.substr(4,2),16);
+
+  function drawPlanet() {
+    ctx.clearRect(0,0,W,H);
+    // Atmosphere glow
+    const atmo = ctx.createRadialGradient(W/2,H/2,R-5,W/2,H/2,R+10);
+    atmo.addColorStop(0,`rgba(${r},${g},${b},.3)`);
+    atmo.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.beginPath();
+    ctx.arc(W/2,H/2,R+10,0,Math.PI*2);
+    ctx.fillStyle=atmo;
+    ctx.fill();
+
+    // Clip to circle
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(W/2,H/2,R,0,Math.PI*2);
+    ctx.clip();
+
+    // Base color
+    const base = ctx.createRadialGradient(W/2-15,H/2-15,5,W/2,H/2,R);
+    base.addColorStop(0,`rgba(${Math.min(r+60,255)},${Math.min(g+60,255)},${Math.min(b+60,255)},1)`);
+    base.addColorStop(1,`rgba(${Math.max(r-40,0)},${Math.max(g-40,0)},${Math.max(b-40,0)},1)`);
+    ctx.fillStyle=base;
+    ctx.fillRect(0,0,W,H);
+
+    // Continents (stylized)
+    ctx.fillStyle=`rgba(${Math.max(r-20,0)},${Math.max(g+30,0)},${Math.max(b-20,0)},.6)`;
+    const continents=[
+      {x:offset%130-20,y:28,w:45,h:28,rx:12},
+      {x:(offset+50)%130-10,y:55,w:30,h:22,rx:10},
+      {x:(offset+80)%130,y:38,w:38,h:20,rx:9},
+      {x:(offset+20)%130-15,y:72,w:25,h:18,rx:8},
+    ];
+    continents.forEach(c=>{
+      ctx.beginPath();
+      ctx.roundRect(c.x,c.y,c.w,c.h,c.rx);
+      ctx.fill();
+    });
+
+    // Cloud bands
+    ctx.fillStyle='rgba(255,255,255,.12)';
+    [-8,15,45,70,90].forEach(y=>{
+      ctx.beginPath();
+      ctx.ellipse((offset*1.5+y*3)%200-40,y+20,60,6,0,0,Math.PI*2);
+      ctx.fill();
+    });
+
+    // Specular highlight
+    const spec=ctx.createRadialGradient(W/2-18,H/2-18,0,W/2-10,H/2-10,R*.6);
+    spec.addColorStop(0,'rgba(255,255,255,.25)');
+    spec.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=spec;
+    ctx.fillRect(0,0,W,H);
+
+    ctx.restore();
+
+    // Shadow
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(W/2,H/2,R,0,Math.PI*2);
+    ctx.clip();
+    const shadow=ctx.createLinearGradient(W*.2,0,W,0);
+    shadow.addColorStop(0,'rgba(0,0,0,0)');
+    shadow.addColorStop(.7,'rgba(0,0,0,0)');
+    shadow.addColorStop(1,'rgba(0,0,0,.55)');
+    ctx.fillStyle=shadow;
+    ctx.fillRect(0,0,W,H);
+    ctx.restore();
+  }
+
+  function loop() {
+    if(stopped) return;
+    offset += .4;
+    drawPlanet();
+    animId = requestAnimationFrame(loop);
+  }
+
+  function reveal() {
+    stopped = true;
+    cancelAnimationFrame(animId);
+    wrap.classList.add('revealed');
+  }
+
+  loop();
+  return {reveal};
+}
+
+// Init all planets
+const planets = [];
+document.querySelectorAll('.planet-logo-wrap').forEach(wrap=>{
+  planets.push({wrap, ctrl: initPlanet(wrap), revealed: false});
+});
+
+// Reveal on scroll into view
+const planetIO = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const found = planets.find(p=>p.wrap===e.target);
+      if(found && !found.revealed){
+        found.revealed = true;
+        setTimeout(()=>found.ctrl.reveal(), 800);
+      }
+    }
+  });
+},{threshold:.5});
+planets.forEach(p=>planetIO.observe(p.wrap));
+
+// ── INTERSECTION OBSERVER (general) ──
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('vis'); });
+},{threshold:.2});
+document.querySelectorAll('.sr,.exp-row,.sk-box,.edu-row,.scene-eyebrow,.scene-title,.scene-sub,.trailer-stat,.trailer-stat-label,.photo-wrap').forEach(el=>io.observe(el));
+const mr=document.getElementById('mexico-routes');
+if(mr) io.observe(mr);
+
+// ── COUNTERS ──
 function animCount(el,target,suffix,dur){
   let start=null;
   function step(ts){
@@ -434,15 +625,7 @@ function animCount(el,target,suffix,dur){
 }
 const statRows=document.querySelectorAll('#cv-about .stat-row');
 const statData=[{t:8,s:'+'},{t:3,s:''},{t:20,s:'%'}];
-new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting&&!e.target.dataset.counted){
-      e.target.dataset.counted='1';
-      const i=Array.from(statRows).indexOf(e.target);
-      if(i>=0) animCount(e.target.querySelector('.stat-big'),statData[i].t,statData[i].s,2000);
-    }
-  });
-},{threshold:.6}).observe && statRows.forEach(r=>{
+statRows.forEach(r=>{
   new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(e.isIntersecting&&!e.target.dataset.counted){
