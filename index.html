@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -7,52 +7,58 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--black:#04080F;--white:#F0F0EC;--amber:#E8845A;--dim:rgba(240,240,236,.38);}
+:root{--black:#04080F;--white:#F0F0EC;--amber:#E8845A;--dim:rgba(240,240,236,.38);--light-bg:#F4F2EE;--dark-text:#1a1a2e;}
 html,body{width:100%;overflow-x:hidden;background:var(--black);color:var(--white);font-family:'Inter',sans-serif;}
 
 /* PROGRESS */
-#prog{position:fixed;top:0;left:0;height:2px;background:var(--amber);z-index:999;width:0;}
+#prog{position:fixed;top:0;left:0;height:2px;background:var(--amber);z-index:999;width:0;transition:width .08s linear;}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 3rem;opacity:0;transition:opacity .5s;pointer-events:none;}
 nav.show{opacity:1;pointer-events:all;}
+nav.light{color:var(--dark-text);}
+nav.light .nname{color:var(--dark-text);}
+nav.light .nlinks a{color:rgba(26,26,46,.5);}
+nav.light .nlinks a:hover{color:var(--dark-text);}
 .nname{font-family:'Bebas Neue';font-size:1rem;letter-spacing:.15em;}
 .nlinks{display:flex;gap:2rem;}
 .nlinks a{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .2s;}
 .nlinks a:hover{color:var(--white);}
 
-/* ═══ VIDEO SECTIONS ═══ */
+/* ═══ VIDEO SECTIONS — NO BORDERS ═══ */
 .video-section{
-  position:relative;height:100vh;overflow:hidden;
+  position:relative;
+  height:100vh;
+  overflow:hidden;
   display:flex;align-items:center;justify-content:center;
+  /* No margin, no border — seamless */
 }
-.video-section video{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;
-}
+.video-section video,
 .video-section img{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
 }
-/* Vignette */
 .video-section::after{
   content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse at center,transparent 20%,rgba(4,8,15,.75) 100%);
+  background:radial-gradient(ellipse at center,transparent 15%,rgba(4,8,15,.72) 100%);
   pointer-events:none;z-index:1;
 }
-/* Bottom fade into next section */
-.video-section .bottom-fade{
-  position:absolute;bottom:0;left:0;right:0;height:200px;
-  background:linear-gradient(to bottom,transparent,var(--black));
+/* Seamless blend to next — gradient matches next section bg */
+.blend-to-dark::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:250px;
+  background:linear-gradient(to bottom,transparent,#04080f);
+  z-index:2;pointer-events:none;
+}
+.blend-to-light::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:300px;
+  background:linear-gradient(to bottom,transparent,#F4F2EE);
   z-index:2;pointer-events:none;
 }
 .video-content{position:relative;z-index:3;text-align:center;padding:0 2rem;}
 
 /* ═══ SCENE 1: EARTH ═══ */
-#scene-earth .video-content{display:flex;flex-direction:column;align-items:center;}
 .earth-eyebrow{font-size:.65rem;letter-spacing:.4em;text-transform:uppercase;color:var(--amber);margin-bottom:1.5rem;opacity:0;animation:fadeUp .8s ease forwards .5s;}
 .earth-role{font-family:'Bebas Neue';font-size:clamp(1rem,2.5vw,1.6rem);letter-spacing:.25em;color:rgba(240,240,236,.45);opacity:0;animation:fadeUp .8s ease forwards .8s;margin-bottom:.5rem;}
-.earth-name{font-family:'Bebas Neue';font-size:clamp(4rem,11vw,9rem);line-height:.9;letter-spacing:.04em;opacity:0;animation:fadeUp 1s ease forwards 1s;text-shadow:0 0 80px rgba(232,132,90,.25);}
+.earth-name{font-family:'Bebas Neue';font-size:clamp(4rem,11vw,9rem);line-height:.9;letter-spacing:.04em;opacity:0;animation:fadeUp 1s ease forwards 1s;text-shadow:0 0 80px rgba(232,132,90,.2);}
 .earth-sub{font-size:.85rem;font-weight:300;color:rgba(240,240,236,.4);margin-top:1.5rem;letter-spacing:.08em;opacity:0;animation:fadeUp .8s ease forwards 1.5s;}
 .scroll-hint{position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.6rem;z-index:3;opacity:0;animation:fadeUp .8s ease forwards 2.2s;}
 .scroll-hint span{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);}
@@ -60,8 +66,7 @@ nav.show{opacity:1;pointer-events:all;}
 @keyframes lineA{0%,100%{opacity:1;transform:scaleY(1)}50%{opacity:.4;transform:scaleY(.5)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 
-/* ═══ SCENE 2: MEXICO ═══ */
-#scene-mexico .video-content{max-width:900px;}
+/* ═══ SCENE CONTENT ═══ */
 .scene-eyebrow{font-size:.65rem;letter-spacing:.35em;text-transform:uppercase;color:var(--amber);margin-bottom:1rem;opacity:0;transition:opacity .8s .2s;}
 .scene-eyebrow.vis{opacity:1;}
 .scene-title{font-family:'Bebas Neue';font-size:clamp(3rem,9vw,7.5rem);line-height:.9;letter-spacing:.03em;opacity:0;transform:translateY(30px);transition:opacity .9s,transform .9s;}
@@ -69,109 +74,119 @@ nav.show{opacity:1;pointer-events:all;}
 .scene-sub{font-size:.9rem;font-weight:300;color:rgba(240,240,236,.45);margin-top:1.5rem;line-height:1.8;opacity:0;transition:opacity .8s .4s;}
 .scene-sub.vis{opacity:1;}
 
-/* Route lines overlay on Mexico */
-#mexico-routes{
-  position:absolute;inset:0;z-index:2;pointer-events:none;
-  opacity:0;transition:opacity 1s .5s;
-}
+/* Route dots on Mexico */
+#mexico-routes{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;transition:opacity 1s .5s;}
 #mexico-routes.vis{opacity:1;}
-.route-dot{
-  position:absolute;
-  width:10px;height:10px;border-radius:50%;
-  background:var(--amber);
-  box-shadow:0 0 12px rgba(232,132,90,.8);
-}
-.route-dot::after{
-  content:'';position:absolute;inset:-5px;border-radius:50%;
-  border:1.5px solid var(--amber);
-  animation:dotPulse 2s ease-out infinite;
-}
+.route-dot{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--amber);box-shadow:0 0 12px rgba(232,132,90,.8);}
+.route-dot::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:1.5px solid var(--amber);animation:dotPulse 2s ease-out infinite;}
 @keyframes dotPulse{from{transform:scale(1);opacity:.7}to{transform:scale(2.5);opacity:0}}
-.route-label{
-  position:absolute;font-family:'Bebas Neue';font-size:.75rem;
-  letter-spacing:.15em;color:var(--amber);margin-top:14px;margin-left:-10px;
-  text-shadow:0 0 10px rgba(232,132,90,.5);
-}
+.route-label{position:absolute;font-family:'Bebas Neue';font-size:.75rem;letter-spacing:.15em;color:var(--amber);margin-top:14px;margin-left:-10px;text-shadow:0 0 10px rgba(232,132,90,.5);}
 
-/* ═══ SCENE 3: CDMX ═══ */
-#scene-cdmx{}
-
-/* ═══ SCENE 4: TRAILER ═══ */
-#scene-trailer .video-content{max-width:700px;}
-.trailer-stat{
-  display:inline-block;
-  font-family:'Bebas Neue';font-size:clamp(5rem,14vw,11rem);
-  color:var(--amber);line-height:1;
-  text-shadow:0 0 60px rgba(232,132,90,.4);
-  opacity:0;transform:translateY(40px);
-  transition:opacity 1s,transform 1s;
-}
+/* Trailer stat */
+.trailer-stat{display:inline-block;font-family:'Bebas Neue';font-size:clamp(5rem,14vw,11rem);color:var(--amber);line-height:1;text-shadow:0 0 60px rgba(232,132,90,.4);opacity:0;transform:translateY(40px);transition:opacity 1s,transform 1s;}
 .trailer-stat.vis{opacity:1;transform:translateY(0);}
 .trailer-stat-label{font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(240,240,236,.4);margin-top:.5rem;opacity:0;transition:opacity .8s .3s;}
 .trailer-stat-label.vis{opacity:1;}
 
-/* ═══ SCENE 5: WAREHOUSE ═══ */
-#scene-warehouse .video-content{max-width:700px;}
+/* ═══════════════════════════════
+   LIGHT CV SECTIONS
+═══════════════════════════════ */
+#cv-content{background:var(--light-bg);}
 
-/* ═══ CV SECTIONS ═══ */
-#cv-content{background:var(--black);}
-.cv-panel{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:8rem 6vw;border-top:1px solid rgba(255,255,255,.05);}
+.cv-panel{
+  min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+  padding:8rem 6vw;
+  background:var(--light-bg);
+  color:var(--dark-text);
+  /* No borders */
+}
+
+/* Alternating subtle bg */
+.cv-panel.alt{background:#ECEAE4;}
+
 .eyebrow{font-size:.63rem;letter-spacing:.32em;text-transform:uppercase;color:var(--amber);margin-bottom:1.5rem;}
-.big-title{font-family:'Bebas Neue';font-size:clamp(3.5rem,9vw,8rem);line-height:.9;letter-spacing:.025em;margin-bottom:3rem;}
+.big-title{font-family:'Bebas Neue';font-size:clamp(3.5rem,9vw,8rem);line-height:.9;letter-spacing:.025em;margin-bottom:3rem;color:var(--dark-text);}
 .cursor-blink{display:inline-block;width:4px;height:.8em;background:var(--amber);margin-left:4px;vertical-align:middle;animation:cblink .9s step-end infinite;}
 @keyframes cblink{0%,100%{opacity:1}50%{opacity:0}}
 
 /* About */
 .about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:5rem;align-items:start;}
-.about-text{font-size:1rem;line-height:1.95;color:rgba(240,240,236,.58);font-weight:300;}
+.about-text{font-size:1rem;line-height:1.95;color:rgba(26,26,46,.65);font-weight:300;}
 .stats-stack{display:flex;flex-direction:column;gap:2.8rem;}
-.stat-row{border-left:1px solid rgba(232,132,90,.22);padding-left:1.5rem;}
+.stat-row{border-left:2px solid rgba(232,132,90,.4);padding-left:1.5rem;}
 .stat-big{font-family:'Bebas Neue';font-size:3.8rem;color:var(--amber);line-height:1;display:block;}
-.stat-desc{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-top:.2rem;}
-.particle{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--amber);opacity:0;pointer-events:none;animation:pfly var(--pd,4s) ease-in-out infinite var(--pdelay,0s);}
-@keyframes pfly{0%{opacity:0;transform:translateY(0) scale(0);}20%{opacity:.6;transform:translateY(-20px) scale(1);}80%{opacity:.2;transform:translateY(-80px) scale(.5);}100%{opacity:0;transform:translateY(-120px) scale(0);}}
+.stat-desc{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(26,26,46,.45);margin-top:.2rem;}
 
-/* Experience */
-.exp-row{display:grid;grid-template-columns:170px 1fr;gap:3rem;padding:2.8rem 0;border-top:1px solid rgba(255,255,255,.07);opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease;position:relative;}
+/* ═══ EXPERIENCE ═══ */
+.exp-row{
+  display:grid;grid-template-columns:200px 1fr;gap:3rem;
+  padding:3rem 0;
+  /* No border-top, use padding separation */
+  opacity:0;transform:translateY(28px);
+  transition:opacity .65s ease,transform .65s ease;
+  position:relative;
+}
+/* Subtle separator line — much lighter */
+.exp-row+.exp-row{border-top:1px solid rgba(26,26,46,.08);}
 .exp-row::before{content:'';position:absolute;left:-6vw;top:0;bottom:0;width:3px;background:var(--amber);transform:scaleY(0);transform-origin:top;transition:transform .4s ease;}
 .exp-row.vis{opacity:1;transform:translateY(0);}
 .exp-row.vis:hover::before{transform:scaleY(1);}
 .exp-row:hover .exp-title{color:var(--amber);}
-.exp-period{font-size:.68rem;letter-spacing:.12em;color:var(--dim);text-transform:uppercase;line-height:1.6;}
-.exp-company{font-size:.82rem;font-weight:600;color:rgba(232,132,90,.65);margin-top:.5rem;}
-.exp-title{font-family:'Bebas Neue';font-size:clamp(1.6rem,3vw,2.5rem);letter-spacing:.03em;margin-bottom:.9rem;transition:color .25s;line-height:1;}
+
+.exp-left{display:flex;flex-direction:column;gap:.8rem;}
+.exp-logo{
+  width:80px;height:40px;object-fit:contain;
+  opacity:.85;filter:grayscale(20%);
+  transition:opacity .2s,filter .2s;
+}
+.exp-row:hover .exp-logo{opacity:1;filter:grayscale(0%);}
+.exp-period{font-size:.68rem;letter-spacing:.12em;color:rgba(26,26,46,.4);text-transform:uppercase;line-height:1.6;}
+.exp-company{font-size:.82rem;font-weight:600;color:var(--amber);}
+.exp-title{font-family:'Bebas Neue';font-size:clamp(1.6rem,3vw,2.4rem);letter-spacing:.03em;margin-bottom:.9rem;transition:color .25s;line-height:1;color:var(--dark-text);}
 .exp-points{list-style:none;}
-.exp-points li{font-size:.85rem;color:rgba(240,240,236,.45);line-height:1.85;padding-left:1.3rem;position:relative;margin-bottom:.25rem;}
+.exp-points li{font-size:.88rem;color:rgba(26,26,46,.6);line-height:1.85;padding-left:1.3rem;position:relative;margin-bottom:.25rem;}
 .exp-points li::before{content:'→';position:absolute;left:0;color:var(--amber);font-size:.72rem;}
 
 /* Skills */
-.mq-wrap{overflow:hidden;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);padding:1.1rem 0;margin-bottom:3rem;}
+.mq-wrap{overflow:hidden;border-top:1px solid rgba(26,26,46,.08);border-bottom:1px solid rgba(26,26,46,.08);padding:1.1rem 0;margin-bottom:3rem;}
 .mq{display:flex;gap:3rem;width:max-content;animation:mqa 22s linear infinite;}
-.mq span{font-family:'Bebas Neue';font-size:1.7rem;letter-spacing:.1em;white-space:nowrap;color:rgba(255,255,255,.1);}
-.mq span.hi{color:var(--white);}
+.mq span{font-family:'Bebas Neue';font-size:1.7rem;letter-spacing:.1em;white-space:nowrap;color:rgba(26,26,46,.12);}
+.mq span.hi{color:var(--dark-text);}
 @keyframes mqa{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.sk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1px;background:rgba(255,255,255,.06);}
-.sk-box{background:var(--black);padding:1.8rem 1.5rem;opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s,background .2s;}
+
+.sk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1px;background:rgba(26,26,46,.08);}
+.sk-box{background:var(--light-bg);padding:1.8rem 1.5rem;opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s,background .2s;}
 .sk-box.vis{opacity:1;transform:translateY(0);}
-.sk-box:hover{background:#0d1520;}
+.sk-box:hover{background:#EAE8E2;}
 .sk-box:hover .sk-name{color:var(--amber);}
 .sk-cat{font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);margin-bottom:.5rem;}
-.sk-name{font-size:.92rem;font-weight:500;}
+.sk-name{font-size:.92rem;font-weight:500;color:var(--dark-text);}
 
 /* Education */
-.edu-row{display:grid;grid-template-columns:90px 1fr;gap:2.5rem;padding:2.2rem 0;border-top:1px solid rgba(255,255,255,.07);opacity:0;transform:translateX(-25px);transition:opacity .6s ease,transform .6s ease;}
+.edu-row{display:grid;grid-template-columns:90px 1fr;gap:2.5rem;padding:2.2rem 0;opacity:0;transform:translateX(-25px);transition:opacity .6s ease,transform .6s ease;}
+.edu-row+.edu-row{border-top:1px solid rgba(26,26,46,.08);}
 .edu-row.vis{opacity:1;transform:translateX(0);}
 .edu-year{font-family:'Bebas Neue';font-size:1.1rem;color:var(--amber);padding-top:.2rem;}
-.edu-deg{font-size:1rem;font-weight:600;margin-bottom:.3rem;}
-.edu-inst{font-size:.82rem;color:var(--dim);}
+.edu-deg{font-size:1rem;font-weight:600;margin-bottom:.3rem;color:var(--dark-text);}
+.edu-inst{font-size:.82rem;color:rgba(26,26,46,.45);}
 
-/* Contact */
-#cv-contact{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem;}
+/* Contact — back to dark */
+#cv-contact{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:6rem 2rem;
+  background:var(--black);color:var(--white);
+}
 .ct-pre{font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--amber);margin-bottom:2rem;}
-.ct-big{font-family:'Bebas Neue';font-size:clamp(3.5rem,11vw,9rem);line-height:.88;letter-spacing:.02em;margin-bottom:3rem;}
+.ct-big{font-family:'Bebas Neue';font-size:clamp(3.5rem,11vw,9rem);line-height:.88;letter-spacing:.02em;margin-bottom:3rem;color:var(--white);}
 .ct-links{display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;}
-.ct-btn{display:inline-block;text-decoration:none;color:var(--white);border:1px solid rgba(255,255,255,.18);padding:.9rem 2rem;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;transition:border-color .2s,color .2s;}
+.ct-btn{display:inline-block;text-decoration:none;color:var(--white);border:1px solid rgba(255,255,255,.2);padding:.9rem 2rem;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;transition:border-color .2s,color .2s;}
 .ct-btn:hover{border-color:var(--amber);color:var(--amber);}
+
+/* Transition from last light section to dark contact */
+.light-to-dark{
+  height:200px;
+  background:linear-gradient(to bottom,var(--light-bg),var(--black));
+}
 
 /* Scroll reveal */
 .sr{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease;}
@@ -200,32 +215,21 @@ nav.show{opacity:1;pointer-events:all;}
   </div>
 </nav>
 
-<!-- ═══════════════════════
-     SCENE 1 — EARTH
-═══════════════════════ -->
-<section class="video-section" id="scene-earth">
-  <video autoplay muted loop playsinline>
-    <source src="earth.mp4" type="video/mp4">
-  </video>
+<!-- ═══ SCENE 1: EARTH ═══ -->
+<section class="video-section blend-to-dark" id="scene-earth">
+  <video autoplay muted loop playsinline><source src="earth.mp4" type="video/mp4"></video>
   <div class="video-content">
     <p class="earth-eyebrow">Ciudad de México · Disponible</p>
     <p class="earth-role">Logistics · Supply Chain · MBA Finance</p>
     <h1 class="earth-name">IGNACIO<br>ZAMORA</h1>
     <p class="earth-sub">Industrial Engineer · Distribution Manager · Procurement Specialist</p>
   </div>
-  <div class="scroll-hint">
-    <div class="scroll-line"></div>
-    <span>Scroll</span>
-  </div>
-  <div class="bottom-fade"></div>
+  <div class="scroll-hint"><div class="scroll-line"></div><span>Scroll</span></div>
 </section>
 
-<!-- ═══════════════════════
-     SCENE 2 — MEXICO
-═══════════════════════ -->
-<section class="video-section" id="scene-mexico">
+<!-- ═══ SCENE 2: MEXICO ═══ -->
+<section class="video-section blend-to-dark" id="scene-mexico">
   <img src="mexico.jpg" alt="Mexico desde el espacio">
-  <!-- Route dots overlay -->
   <div id="mexico-routes">
     <div class="route-dot" style="top:38%;left:28%;"><span class="route-label">MTY</span></div>
     <div class="route-dot" style="top:52%;left:38%;"><span class="route-label">GDL</span></div>
@@ -238,59 +242,45 @@ nav.show{opacity:1;pointer-events:all;}
     <h2 class="scene-title" id="mxTitle">MÉXICO<br><span style="color:var(--amber)">CONECTADO.</span></h2>
     <p class="scene-sub" id="mxSub">8 años moviendo carga a través de toda la república.<br>De Monterrey a Mérida, de Tijuana a Cancún.</p>
   </div>
-  <div class="bottom-fade"></div>
 </section>
 
-<!-- ═══════════════════════
-     SCENE 3 — CDMX
-═══════════════════════ -->
-<section class="video-section" id="scene-cdmx">
-  <img src="cdmx.jpg" alt="Ciudad de México de noche">
+<!-- ═══ SCENE 3: CDMX ═══ -->
+<section class="video-section blend-to-dark" id="scene-cdmx">
+  <img src="cdmx.jpg" alt="CDMX de noche">
   <div class="video-content">
     <p class="scene-eyebrow" id="cdmxEyebrow">Base de Operaciones</p>
     <h2 class="scene-title" id="cdmxTitle">CIUDAD DE<br><span style="color:var(--amber)">MÉXICO.</span></h2>
     <p class="scene-sub" id="cdmxSub">Coordinando operaciones desde el corazón<br>de la ciudad más grande de Latinoamérica.</p>
   </div>
-  <div class="bottom-fade"></div>
 </section>
 
-<!-- ═══════════════════════
-     SCENE 4 — TRAILER
-═══════════════════════ -->
-<section class="video-section" id="scene-trailer">
-  <video autoplay muted loop playsinline>
-    <source src="trailer.mp4" type="video/mp4">
-  </video>
+<!-- ═══ SCENE 4: TRAILER ═══ -->
+<section class="video-section blend-to-dark" id="scene-trailer">
+  <video autoplay muted loop playsinline><source src="trailer.mp4" type="video/mp4"></video>
   <div class="video-content">
     <div class="trailer-stat" id="trailerStat">8+</div>
     <p class="trailer-stat-label" id="trailerLabel">Años en logística · FTL · LTL · Parcel · Last Mile</p>
     <p class="scene-sub" id="trailerSub" style="margin-top:1.5rem;">Hellmann · Geodis · Kuehne+Nagel</p>
   </div>
-  <div class="bottom-fade"></div>
 </section>
 
-<!-- ═══════════════════════
-     SCENE 5 — WAREHOUSE
-═══════════════════════ -->
-<section class="video-section" id="scene-warehouse">
-  <video autoplay muted loop playsinline>
-    <source src="warehouse.mp4" type="video/mp4">
-  </video>
+<!-- ═══ SCENE 5: WAREHOUSE ═══ -->
+<section class="video-section blend-to-light" id="scene-warehouse">
+  <video autoplay muted loop playsinline><source src="warehouse.mp4" type="video/mp4"></video>
   <div class="video-content">
     <p class="scene-eyebrow" id="whEyebrow">Operaciones · E-commerce · Supply Chain</p>
     <h2 class="scene-title" id="whTitle">CADA CAJA<br><span style="color:var(--amber)">CUENTA.</span></h2>
     <p class="scene-sub" id="whSub">Arquitectura de datos, KPIs en tiempo real<br>y procesos SOP que nunca fallan.</p>
   </div>
-  <div class="bottom-fade"></div>
 </section>
 
 <!-- ═══════════════════════
-     CV CONTENT
+     CV LIGHT SECTIONS
 ═══════════════════════ -->
 <div id="cv-content">
 
   <!-- ABOUT -->
-  <section class="cv-panel" id="cv-about" style="position:relative;">
+  <section class="cv-panel" id="cv-about">
     <p class="eyebrow sr">Perfil Profesional</p>
     <div class="big-title sr">NO SOLO<br><span style="color:var(--amber)">MUEVO</span><br>CARGA.<span class="cursor-blink"></span></div>
     <div class="about-grid">
@@ -304,19 +294,68 @@ nav.show{opacity:1;pointer-events:all;}
   </section>
 
   <!-- EXPERIENCE -->
-  <section class="cv-panel" id="cv-exp">
+  <section class="cv-panel alt" id="cv-exp">
     <p class="eyebrow sr">Trayectoria</p>
     <div class="big-title sr">EXPERIENCIA</div>
-    <div class="exp-row"><div><p class="exp-period">Jul 2023 — Presente</p><p class="exp-company">Kuehne+Nagel · Top 10 Logística MX</p></div><div><h3 class="exp-title">CONTRACT LOGISTICS DISTRIBUTION MANAGER — PROCUREMENT</h3><ul class="exp-points"><li>Supply Chain & Operational Management a nivel nacional</li><li>E-commerce specialist: integración de sistemas y gestión de pagos</li><li>Arquitectura de datos y reportes KPI en Power BI & Excel</li><li>Negociación, gestión de riesgo y conocimiento financiero aplicado</li></ul></div></div>
-    <div class="exp-row" style="transition-delay:.1s"><div><p class="exp-period">Feb 2020 — Jul 2023</p><p class="exp-company">Geodis · Global Logistics</p></div><div><h3 class="exp-title">TEAM LEADER ADMINISTRATOR — LOGISTICS</h3><ul class="exp-points"><li>Facturación, auditoría de costos y control financiero operativo</li><li>E-commerce specialist y desarrollo de carriers</li><li>Reportes KPI en Power BI & Excel, SOP expertise y data architect</li></ul></div></div>
-    <div class="exp-row" style="transition-delay:.2s"><div><p class="exp-period">May 2017 — Feb 2020</p><p class="exp-company">Hellmann · Global Logistics</p></div><div><h3 class="exp-title">RAIL & ROAD PRICING · PROCUREMENT COORDINATOR</h3><ul class="exp-points"><li>Incremento del 20% en gross margin vía negociación estratégica</li><li>Reducción del 10% en costos — procurement FTL, LTL & Parcel</li><li>BID & RFQ, project leader en distribución nacional</li></ul></div></div>
+
+    <div class="exp-row">
+      <div class="exp-left">
+        <img class="exp-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Kuehne_%2B_Nagel_logo.svg/320px-Kuehne_%2B_Nagel_logo.svg.png" alt="Kuehne+Nagel">
+        <p class="exp-period">Jul 2023 — Presente</p>
+        <p class="exp-company">Kuehne+Nagel</p>
+      </div>
+      <div>
+        <h3 class="exp-title">CONTRACT LOGISTICS DISTRIBUTION MANAGER — PROCUREMENT</h3>
+        <ul class="exp-points">
+          <li>Supply Chain & Operational Management a nivel nacional</li>
+          <li>E-commerce specialist: integración de sistemas y gestión de pagos</li>
+          <li>Arquitectura de datos y reportes KPI en Power BI & Excel</li>
+          <li>Negociación, gestión de riesgo y conocimiento financiero aplicado</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-row" style="transition-delay:.1s">
+      <div class="exp-left">
+        <img class="exp-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Geodis_logo.svg/320px-Geodis_logo.svg.png" alt="Geodis">
+        <p class="exp-period">Feb 2020 — Jul 2023</p>
+        <p class="exp-company">Geodis</p>
+      </div>
+      <div>
+        <h3 class="exp-title">TEAM LEADER ADMINISTRATOR — LOGISTICS</h3>
+        <ul class="exp-points">
+          <li>Facturación, auditoría de costos y control financiero operativo</li>
+          <li>E-commerce specialist y desarrollo de carriers</li>
+          <li>Reportes KPI en Power BI & Excel, SOP expertise y data architect</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-row" style="transition-delay:.2s">
+      <div class="exp-left">
+        <img class="exp-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Hellmann_Worldwide_Logistics_logo.svg/320px-Hellmann_Worldwide_Logistics_logo.svg.png" alt="Hellmann">
+        <p class="exp-period">May 2017 — Feb 2020</p>
+        <p class="exp-company">Hellmann</p>
+      </div>
+      <div>
+        <h3 class="exp-title">RAIL & ROAD PRICING · PROCUREMENT COORDINATOR</h3>
+        <ul class="exp-points">
+          <li>Incremento del 20% en gross margin vía negociación estratégica</li>
+          <li>Reducción del 10% en costos — procurement FTL, LTL & Parcel</li>
+          <li>BID & RFQ, project leader en distribución nacional</li>
+        </ul>
+      </div>
+    </div>
   </section>
 
   <!-- SKILLS -->
   <section class="cv-panel" id="cv-skills">
     <p class="eyebrow sr">Competencias</p>
     <div class="big-title sr">HABILIDADES</div>
-    <div class="mq-wrap"><div class="mq"><span class="hi">PROCUREMENT</span><span>·</span><span class="hi">POWER BI</span><span>·</span><span>SAP</span><span>·</span><span class="hi">MBA FINANCE</span><span>·</span><span>E-COMMERCE</span><span>·</span><span class="hi">SUPPLY CHAIN</span><span>·</span><span>KPI</span><span>·</span><span class="hi">BID & RFQ</span><span>·</span><span class="hi">PROCUREMENT</span><span>·</span><span class="hi">POWER BI</span><span>·</span><span>SAP</span><span>·</span><span class="hi">MBA FINANCE</span><span>·</span><span>E-COMMERCE</span><span>·</span><span class="hi">SUPPLY CHAIN</span><span>·</span><span>KPI</span><span>·</span><span class="hi">BID & RFQ</span><span>·</span></div></div>
+    <div class="mq-wrap"><div class="mq">
+      <span class="hi">PROCUREMENT</span><span>·</span><span class="hi">POWER BI</span><span>·</span><span>SAP</span><span>·</span><span class="hi">MBA FINANCE</span><span>·</span><span>E-COMMERCE</span><span>·</span><span class="hi">SUPPLY CHAIN</span><span>·</span><span>KPI</span><span>·</span><span class="hi">BID & RFQ</span><span>·</span>
+      <span class="hi">PROCUREMENT</span><span>·</span><span class="hi">POWER BI</span><span>·</span><span>SAP</span><span>·</span><span class="hi">MBA FINANCE</span><span>·</span><span>E-COMMERCE</span><span>·</span><span class="hi">SUPPLY CHAIN</span><span>·</span><span>KPI</span><span>·</span><span class="hi">BID & RFQ</span><span>·</span>
+    </div></div>
     <div class="sk-grid">
       <div class="sk-box"><p class="sk-cat">Core</p><p class="sk-name">Procurement & Negociación</p></div>
       <div class="sk-box" style="transition-delay:.06s"><p class="sk-cat">Core</p><p class="sk-name">Supply Chain Management</p></div>
@@ -332,7 +371,7 @@ nav.show{opacity:1;pointer-events:all;}
   </section>
 
   <!-- EDUCATION -->
-  <section class="cv-panel" id="cv-edu">
+  <section class="cv-panel alt" id="cv-edu">
     <p class="eyebrow sr">Formación</p>
     <div class="big-title sr">EDUCACIÓN</div>
     <div>
@@ -343,8 +382,11 @@ nav.show{opacity:1;pointer-events:all;}
     </div>
   </section>
 
+  <!-- Transition to dark -->
+  <div class="light-to-dark"></div>
+
   <!-- CONTACT -->
-  <section id="cv-contact" class="cv-panel">
+  <section id="cv-contact">
     <p class="ct-pre sr">Ciudad de México · Disponible</p>
     <div class="ct-big sr">HABLEMOS<br>DE<br>LOGÍSTICA.</div>
     <div class="ct-links sr">
@@ -364,22 +406,18 @@ window.addEventListener('scroll',()=>{
 
 // Nav
 window.addEventListener('scroll',()=>{
-  document.getElementById('mainNav').classList.toggle('show',window.scrollY>window.innerHeight*.8);
+  const nav = document.getElementById('mainNav');
+  const cvTop = document.getElementById('cv-content').offsetTop;
+  nav.classList.toggle('show', window.scrollY > window.innerHeight * .8);
+  nav.classList.toggle('light', window.scrollY > cvTop - 100);
 },{passive:true});
 
-// Intersection Observer for all reveal elements
+// Intersection Observer
 const io = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('vis');
-    }
-  });
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('vis'); });
 },{threshold:.25});
-
 document.querySelectorAll('.sr,.exp-row,.sk-box,.edu-row,.scene-eyebrow,.scene-title,.scene-sub,.trailer-stat,.trailer-stat-label').forEach(el=>io.observe(el));
-
-// Mexico routes
-io.observe(document.getElementById('mexico-routes'));
+document.getElementById('mexico-routes') && io.observe(document.getElementById('mexico-routes'));
 
 // Counters
 function animCount(el,target,suffix,dur){
@@ -396,25 +434,25 @@ function animCount(el,target,suffix,dur){
 }
 const statRows=document.querySelectorAll('#cv-about .stat-row');
 const statData=[{t:8,s:'+'},{t:3,s:''},{t:20,s:'%'}];
-const cIO=new IntersectionObserver(entries=>{
+new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting&&!e.target.dataset.counted){
       e.target.dataset.counted='1';
       const i=Array.from(statRows).indexOf(e.target);
-      if(i>=0)animCount(e.target.querySelector('.stat-big'),statData[i].t,statData[i].s,2000);
+      if(i>=0) animCount(e.target.querySelector('.stat-big'),statData[i].t,statData[i].s,2000);
     }
   });
-},{threshold:.6});
-statRows.forEach(r=>cIO.observe(r));
-
-// Particles
-const aboutP=document.getElementById('cv-about');
-for(let i=0;i<16;i++){
-  const p=document.createElement('div');
-  p.className='particle';
-  p.style.cssText=`left:${Math.random()*100}%;bottom:${Math.random()*50}%;--pd:${3+Math.random()*4}s;--pdelay:${-Math.random()*6}s;`;
-  aboutP.appendChild(p);
-}
+},{threshold:.6}).observe && statRows.forEach(r=>{
+  new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting&&!e.target.dataset.counted){
+        e.target.dataset.counted='1';
+        const i=Array.from(statRows).indexOf(e.target);
+        if(i>=0) animCount(e.target.querySelector('.stat-big'),statData[i].t,statData[i].s,2000);
+      }
+    });
+  },{threshold:.6}).observe(r);
+});
 </script>
 </body>
 </html>
